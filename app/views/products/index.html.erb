@@ -1,0 +1,44 @@
+<h1>商品一覧</h1>
+
+<p>
+  <%= link_to "商品を登録する", new_product_path %>
+  |
+  <%= link_to "カートを見る", cart_path(current_cart) %>
+</p>
+
+<% if @products.empty? %>
+  <p>商品はまだ登録されていません。</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>価格</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= number_with_delimiter(product.price) %>円</td>
+
+          <td>
+            <%= link_to "カートに追加",
+                        new_cart_item_path(product_id: product.id) %>
+
+            <%= button_to "商品を削除",
+                          product_path(product),
+                          method: :delete,
+                          form: {
+                            data: {
+                              turbo_confirm: "この商品を削除しますか？"
+                            }
+                          } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
