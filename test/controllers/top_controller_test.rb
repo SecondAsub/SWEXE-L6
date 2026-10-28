@@ -1,8 +1,9 @@
 require "test_helper"
 
 class TopControllerTest < ActionDispatch::IntegrationTest
-  test "should get main" do
+  test "should redirect to products" do
     get top_main_url
-    assert_response :success
+
+    assert_redirected_to products_url
   end
 end
